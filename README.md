@@ -1,7 +1,7 @@
 # Magento2 Search Realated Product
 Free Magento 2 extension To show related product at Search result page and Product page | Nadeem Khan
 
-<img src="https://i.ibb.co/wwD2MY0/Magento2-search.png" alt="Magento2-search" border="0">
+<img style="border: 3px solid #ccc; padding: 5px;" src="https://i.ibb.co/wwD2MY0/Magento2-search.png" alt="Magento2-search" border="0">
 
 ## Features:
 1. Admin can select products from list for a perticular product.
