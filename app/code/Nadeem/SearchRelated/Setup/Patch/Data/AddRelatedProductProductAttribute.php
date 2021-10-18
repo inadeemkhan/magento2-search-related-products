@@ -49,7 +49,7 @@ class AddRelatedProductProductAttribute implements DataPatchInterface, PatchReve
             'related_product',
             [
                 'type' => 'varchar',
-                'label' => 'related_product',
+                'label' => 'Related Product',
                 'input' => 'multiselect',
                 'source' => \Nadeem\SearchRelated\Model\Product\Attribute\Source\RelatedProduct::class,
                 'frontend' => '',
