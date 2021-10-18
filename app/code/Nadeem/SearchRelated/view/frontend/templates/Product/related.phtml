@@ -1,0 +1,74 @@
+<?php
+$currentProduct = $block->getCurrentProduct();
+$productSku =  $currentProduct->getRelatedProduct();
+
+$ProductSkuArray = explode(",", $productSku);
+
+$collection = $block->getProductCollection($ProductSkuArray);
+
+?>
+<?php
+$type = 'widget-product-new-grid';
+
+$mode = 'grid';
+
+$image = 'new_products_content_widget_grid';
+$items = $collection->getItems();
+
+$showWishlist = true;
+$showCompare = true;
+$showCart = true;
+$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+$description = false;
+?>
+<h2>Here are the other part of the product.</h2>
+<div class="block widget block-products-list <?= /* @noEscape */ $mode ?>">
+    <?php if ($block->getTitle()): ?>
+        <div class="block-title">
+            <strong><?= $block->escapeHtml(__($block->getTitle())) ?></strong>
+        </div>
+    <?php endif ?>
+    <div class="block-content">
+        <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+        <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+            <ol class="product-items <?= /* @noEscape */ $type ?>">
+                <?php $iterator = 1; ?>
+                <?php foreach ($items as $_item): ?>
+                    <?php
+                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    $mediaUrl = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
+                                        ->getStore()
+                                        ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+                    $productImage = $mediaUrl."catalog/product".$_item->getThumbnail();
+                        
+                    ?>
+                    <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                    <?php $blockObj= $block->getLayout()->createBlock('Magento\CatalogWidget\Block\Product\ProductsList'); ?>
+                    <div class="product-item-info">
+                        <a href="<?= $blockObj->escapeUrl($blockObj->getProductUrl($_item)) ?>" class="product-item-photo">
+                            <img src="<?= __($productImage) ?>" alt="product image">
+                        </a>
+                        <div class="product-item-details">
+                            <strong class="product-item-name">
+                                <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                    href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                    class="product-item-link">
+                                    <?= $block->escapeHtml($_item->getName()) ?>
+                                </a>
+                            </strong>
+                            <?php if ($templateType): ?>
+                                <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                            <?php endif; ?>
+
+                            <?= $block->getProductPriceHtml($_item, $type) ?>
+
+                            <?= $block->getProductDetailsHtml($_item) ?>
+                        </div>
+                    </div>
+                    <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+                <?php endforeach ?>
+            </ol>
+        </div>
+        <?= $block->getPagerHtml() ?>
+    </div>
+</div>

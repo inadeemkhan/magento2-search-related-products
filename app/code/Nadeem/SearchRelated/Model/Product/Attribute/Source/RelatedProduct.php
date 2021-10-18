@@ -13,11 +13,23 @@ class RelatedProduct extends \Magento\Eav\Model\Entity\Attribute\Source\Abstract
      */
     public function getAllOptions()
     {
-        $this->_options = [
-        ['value' => 'test1', 'label' => __('Test1')],
-        ['value' => 'test2', 'label' => __('Test2')]
-        ];
-        return $this->_options;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        /** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $productCollection */
+        $productCollection = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\Collection');
+        /** Apply filters here */
+        $collection = $productCollection->addAttributeToSelect('*')->load();
+
+        // This array will contain inner array.
+        $productCollection = array();
+        $innerArray = array(); 
+        foreach ($collection as $product){
+            $innerArray['value'] = $product->getSku();
+            $innerArray['label'] = $product->getName();
+
+            // Inserting inner array into ProductCollection array
+            array_push($productCollection, $innerArray);
+        } 
+        return $productCollection;
     }
 }
 

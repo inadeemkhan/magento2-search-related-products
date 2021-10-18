@@ -49,7 +49,7 @@ class AddRelatedProductModelNoProductAttribute implements DataPatchInterface, Pa
             'related_product_model_no',
             [
                 'type' => 'varchar',
-                'label' => 'related_product_model_no',
+                'label' => 'Related Product Model No.',
                 'input' => 'text',
                 'source' => '',
                 'frontend' => '',
